@@ -1,14 +1,14 @@
 # projet-jeux-go
 
-# 🏚️ CellEscape – RPG Prison ASCII  
+# 🏚️ Prison – RPG Prison 
 
-**CellEscape** est un **RPG en terminal** développé en **Go**, dans un univers carcéral sombre et stratégique.  
+**Prison** est un **RPG en terminal** développé en **Go**, dans un univers carcéral sombre et stratégique.  
 Le joueur incarne un prisonnier qui doit **survivre**, **combattre** et tenter de **s’évader** en progressant à travers les étages de la prison.  
 
 ---
 
 ## 🎯 Objectif du jeu  
-Le but de **CellEscape** est de **s’évader de la prison**.  
+Le but de **Prison** est de **s’évader de la prison**.  
 
 - Gérez votre **faim** et votre **fatigue** pour rester en vie.  
 - Progressez **étage par étage**, affrontez des ennemis et des mini-boss.  
@@ -65,8 +65,8 @@ Achetez et vendez des objets grâce à la **monnaie de prison** : cigarettes ou 
 ## 🚀 Installation & Lancement  
 ```bash
 # Cloner le projet
-git clone https://github.com/votre-repo/cellescape.git
-cd cellescape
+git clone https://github.com/votre-repo/prison.git
+cd prison
 
 # Lancer le jeu
 go run main.go
