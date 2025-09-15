@@ -51,7 +51,7 @@ Achetez et vendez des objets grâce à la **monnaie de prison** : cigarettes ou 
 
 ## 🔧 Stack technique  
 - **Langage** : Go  
-- **Interface** : ASCII en terminal  
+- **Interface** : en terminal  
 - **Architecture** :  
   - `character.go` → gestion des personnages  
   - `combat.go` → système de combat  
