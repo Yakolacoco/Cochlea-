@@ -52,6 +52,7 @@ Achetez et vendez des objets grâce à la **monnaie de prison** : cigarettes ou 
 
 ## 📂 Structure du projet
 ```text
+
 prison/
 ├── main.go              // Menu principal, boucle de jeu
 ├── character.go         // Structure et gestion du personnage
@@ -65,6 +66,7 @@ prison/
 └── utils.go             // Fonctions utilitaires (ex : input, vérifications)
 ```
 ---
+
 ## 🔧 Stack technique  
 - **Langage** : Go  
 - **Interface** : en terminal  
@@ -85,4 +87,3 @@ cd projet-jeux-go-
 
 # Lancer le jeu
 go run main.go
-
