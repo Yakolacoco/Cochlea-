@@ -31,5 +31,4 @@ var Items = []Item{
 	{"Bandage", "soin", 20, 5},        // soigne 20 HP
 	{"Mord au rat", "attaque", 10, 3}, // inflige 10 PV à l'ennemi
 	{"Poisson", "soin", 15, 4},        // soigne 15 HP
-	{"capsules", "argent", 1, 1},      // 1 capsule = 1 unité d'argent
 }
