@@ -25,12 +25,7 @@ Au début du jeu, vous choisissez une **peine** qui définit vos bonus et malus 
 
 - 🔪 **Meurtrier** : +20 PV max, mais +20% fatigue par étage.  
 - 🥷 **Voleur** : +5 initiative et bonus de vol, mais -20 PV max.  
-- 💻 **Hacker** : sort bonus *Pirater*, mais moins d’équipement.  
-- 💊 **Dealer** : plus d’argent et meilleures potions, mais moins d’XP.  
-- 🧨 **Terroriste** : +25 HP max, skill "Bombe artisanale", mais -30 argent.  
-- 🧪 **Scientifique fou** : commence avec une seringue spéciale, mais fatigue +15.  
-- 🕵️ **Prisonnier politique** : +50 argent, skill "Discours", mais -20 HP.  
-- 🚔 **Ancien flic** : +5 initiative, skill "Menottes", mais détesté par les autres.  
+- 💻 **Hacker** : sort bonus *Pirater*, mais moins d’équipement.   
 - 👹 **Psychopathe** : +10 dégâts de base, mais faim/fatigue augmentent 2× plus vite.  
 
 ---
