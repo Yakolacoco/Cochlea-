@@ -49,6 +49,20 @@ Achetez et vendez des objets grâce à la **monnaie de prison** : cigarettes ou 
 
 ---
 
+```text
+prison/
+├── main.go              // Menu principal, boucle de jeu
+├── character.go         // Structure et gestion du personnage
+├── inventory.go         // Gestion de l’inventaire et des objets
+├── shop.go              // Marchand
+├── equipment.go         // Gestion des équipements
+├── combat.go            // Combat tour par tour
+├── monster.go           // Structure des monstres
+├── training.go          // Combat d'entraînement
+├── dungeon.go           // Progression dans les étages (à ajouter)
+└── utils.go             // Fonctions utilitaires (ex : input, vérifications)
+```
+---
 ## 🔧 Stack technique  
 - **Langage** : Go  
 - **Interface** : ASCII en terminal  
