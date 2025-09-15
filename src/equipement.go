@@ -19,7 +19,7 @@ type Item struct {
 
 // Liste des équipements
 var Equipments = []Equipment{
-	{"Couteau artisanal", "arme", 0, 15, 20},
+	{"Couteau artisanal", "arme", 0, 15, 20}, // 0 = defance bonnus 15 = bonnus de degat 20 = prix de litem
 	{"Bâton en bois", "arme", 0, 8, 10},
 	{"Gilet pare-balles léger", "armure", 20, 0, 40},
 	{"Barre de fer", "arme", 0, 30, 30},
@@ -28,8 +28,8 @@ var Equipments = []Equipment{
 
 // Liste des items consommables
 var Items = []Item{
-	{"Bandage", "soin", 20, 5},           // soigne 20 HP
-	{"Mord au rat", "attaque", 10, 3},    // inflige 10 PV à l'ennemi
-	{"Poisson", "soin", 15, 4},           // soigne 15 HP
-	{"Capsule de bière", "argent", 1, 1}, // 1 capsule = 1 unité d'argent
+	{"Bandage", "soin", 20, 5},        // soigne 20 HP
+	{"Mord au rat", "attaque", 10, 3}, // inflige 10 PV à l'ennemi
+	{"Poisson", "soin", 15, 4},        // soigne 15 HP
+	{"capsules", "argent", 1, 1},      // 1 capsule = 1 unité d'argent
 }
