@@ -67,7 +67,7 @@ prison/
 ---
 ## 🔧 Stack technique  
 - **Langage** : Go  
-- **Interface** : ASCII en terminal  
+- **Interface** : en terminal  
 - **Architecture** :  
   - `character.go` → gestion des personnages  
   - `combat.go` → système de combat  
@@ -80,9 +80,9 @@ prison/
 
 ## 🚀 Installation & Lancement  
 ```bash
-# Cloner le projet
-git clone https://github.com/votre-repo/prison.git
-cd prison
+git clone https://github.com/Yakolacoco/projet-jeux-go-.git
+cd projet-jeux-go-
 
 # Lancer le jeu
 go run main.go
+
