@@ -64,9 +64,9 @@ Achetez et vendez des objets grâce à la **monnaie de prison** : cigarettes ou 
 
 ## 🚀 Installation & Lancement  
 ```bash
-# Cloner le projet
-git clone [https://github.com/votre-repo/prison.git](https://github.com/Yakolacoco/projet-jeux-go-.git)
+git clone https://github.com/Yakolacoco/projet-jeux-go-.git
 cd projet-jeux-go-
 
 # Lancer le jeu
 go run main.go
+
