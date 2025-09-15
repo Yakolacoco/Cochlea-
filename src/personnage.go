@@ -5,21 +5,25 @@ import (
     "fmt"
     "strings"
     "unicode"
+    "strconv"
 )
 
 type Character struct {
-    Nom           string
-    Classe        string
-    Niveau        int
-    PVMax         int
-    PVActuels     int
-    Inventaire    []string
-    Argent        int
-    DegatsBase    int
-    Initiative    int
-    Passif        string
-    Faim          int
-    Fatigue       int
+    Nom              string
+    Classe           string
+    Niveau           int
+    PVMax            int
+    PVActuels        int
+    Inventaire       []string
+    Argent           int
+    DegatsBase       int
+    Initiative       int
+    Passif           string
+    Faim             int
+    Fatigue          int
+    ÉquipementArme   *Equipment
+    ÉquipementArmure *Equipment
+    Skills           []string
 }
 
 func characterCreation(scanner *bufio.Scanner) Character {
@@ -32,7 +36,7 @@ func characterCreation(scanner *bufio.Scanner) Character {
         fmt.Print("Choisis ta peine (Meurtrier, Voleur, Hacker, Psychopathe) : ")
         scanner.Scan()
         classe = strings.Title(strings.ToLower(scanner.Text()))
-        if classe == "Meurtrier" || classe == "Voleur" || classe == "Hacker" || classe == "Psychopathe" {
+        if classe == "Meurtrier" || classe == "Voleur" || classe == "Hacker" || classe == "Psychopathe" || classe == "Admin" {
             break
         }
         fmt.Println("❌ Classe invalide.")
@@ -46,19 +50,27 @@ func initCharacter(nom string, classe string) Character {
         Nom:        nom,
         Classe:     classe,
         Niveau:     1,
-        Inventaire: []string{"Potion de soin", "Pain sec", "Potion de soin"},
-        DegatsBase: 10,
+        Inventaire: []string{},
+        DegatsBase: 20,    
         Initiative: 10,
-        Argent:     100,
+        Argent:     10,    
         Faim:       20,
         Fatigue:    20,
+        ÉquipementArme:   nil,
+        ÉquipementArmure: nil,
+        Skills: []string{"Coup de poing"},
+
     }
 
     switch classe {
+    case "Admin":
+        c.PVMax = 100000
+        c.Passif = "Administrateur"
+        c.DegatsBase += 10000
     case "Meurtrier":
         c.PVMax = 120
         c.Passif = "+20 PV Max, mais +10% fatigue par étage."
-        c.DegatsBase += 5
+        c.DegatsBase += 10
     case "Voleur":
         c.PVMax = 100
         c.Passif = "+5 initiative et +100 or."
@@ -132,21 +144,39 @@ func displayInfo(c Character) {
 }
 
 func accessInventory(c *Character, scanner *bufio.Scanner) {
-    fmt.Println("--- Inventaire ---")
-    if len(c.Inventaire) == 0 {
-        fmt.Println("Inventaire vide.")
-        return
-    }
+    for {
+        fmt.Println("\n--- Inventaire ---")
+        if len(c.Inventaire) == 0 {
+            fmt.Println("Inventaire vide.")
+            return
+        }
 
-    for i, item := range c.Inventaire {
-        fmt.Printf("%d. %s\n", i+1, item)
-    }
+        for i, item := range c.Inventaire {
+            fmt.Printf("%d. %s\n", i+1, item)
+        }
+        fmt.Println("0. Retour au menu principal")
+        fmt.Print("Choisis un item : ")
+        scanner.Scan()
+        choix := scanner.Text()
 
-    fmt.Print("Veux-tu manger un aliment ? (oui/non) : ")
-    scanner.Scan()
-    choix := strings.ToLower(scanner.Text())
-    if choix == "oui" {
-        manger(c)
+        if choix == "0" {
+            return
+        }
+
+        index := parseInt(choix) - 1
+        if index < 0 || index >= len(c.Inventaire) {
+            fmt.Println("❌ Choix invalide.")
+            continue
+        }
+
+        itemName := c.Inventaire[index]
+
+        equip := getEquipmentByName(itemName)
+        if equip != nil {
+            equiperItem(c, equip, index)
+        } else {
+            useConsumable(c, itemName, index)
+        }
     }
 }
 
@@ -161,3 +191,87 @@ func formatNom(input string) string {
     }
     return string(runes)
 }
+
+func getEquipmentByName(name string) *Equipment {
+    for i := range Equipments {
+        if Equipments[i].Name == name {
+            return &Equipments[i]
+        }
+    }
+    return nil
+}
+
+func equiperItem(c *Character, equip *Equipment, index int) {
+    switch equip.Type {
+    case "arme":
+        if c.ÉquipementArme != nil {
+            c.Inventaire = append(c.Inventaire, c.ÉquipementArme.Name)
+            c.DegatsBase -= c.ÉquipementArme.BonusDmg
+        }
+        c.ÉquipementArme = equip
+        c.DegatsBase += equip.BonusDmg
+        fmt.Println("✅ Arme équipée :", equip.Name)
+    case "armure":
+        if c.ÉquipementArmure != nil {
+            c.Inventaire = append(c.Inventaire, c.ÉquipementArmure.Name)
+            c.PVMax -= c.ÉquipementArmure.BonusHP
+        }
+        c.ÉquipementArmure = equip
+        c.PVMax += equip.BonusHP
+        if c.PVActuels > c.PVMax {
+            c.PVActuels = c.PVMax
+        }
+        fmt.Println("✅ Armure équipée :", equip.Name)
+    }
+
+    c.Inventaire = append(c.Inventaire[:index], c.Inventaire[index+1:]...)
+}
+
+func useConsumable(c *Character, name string, index int) {
+    switch name {
+    case "Potion de soin":
+        c.PVActuels += 30
+        if c.PVActuels > c.PVMax {
+            c.PVActuels = c.PVMax
+        }
+        fmt.Println("💊 Tu utilises une potion de soin :", c.PVActuels, "/", c.PVMax)
+    case "Pain sec":
+        fmt.Println("🍞 Tu manges du pain sec. +5 faim.")
+        c.Faim += 5
+        if c.Faim > 20 {
+            c.Faim = 20
+        }
+    case "Potion de poison":
+        fmt.Println("☠️ Tu prépares une potion de poison. Elle pourra être utilisée en combat.")
+        // Tu peux ajouter une logique spécifique si tu veux l'utiliser directement en combat
+    case "Livre de Sort : Boule de Feu":
+        spellBook(c) // Apprentissage du sort
+    default:
+        fmt.Println("❌ Cet item ne peut pas être utilisé.")
+    }
+
+    // Supprime l'item utilisé
+    c.Inventaire = append(c.Inventaire[:index], c.Inventaire[index+1:]...)
+}
+// Ajoute le sort Boule de Feu au personnage
+func spellBook(c *Character) {
+    for _, s := range c.Skills {
+        if s == "Boule de Feu" {
+            fmt.Println("❌ Vous connaissez déjà ce sort !")
+            return
+        }
+    }
+    c.Skills = append(c.Skills, "Boule de Feu")
+    fmt.Println("✨ Vous avez appris le sort Boule de Feu !")
+}
+
+
+
+func parseInt(s string) int {
+    val, err := strconv.Atoi(s)
+    if err != nil {
+        return 0
+    }
+    return val
+}
+
