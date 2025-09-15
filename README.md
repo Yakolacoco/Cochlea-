@@ -49,6 +49,8 @@ Achetez et vendez des objets grâce à la **monnaie de prison** : cigarettes ou 
 
 ---
 
+
+## 📂 Structure du projet
 ```text
 prison/
 ├── main.go              // Menu principal, boucle de jeu
