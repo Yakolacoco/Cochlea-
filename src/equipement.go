@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-package main
-=======
 package main
 
 // Les équipements
@@ -35,4 +32,3 @@ var Items = []Item{
 	{"Mord au rat", "attaque", 10, 3}, // inflige 10 PV à l'ennemi
 	{"Poisson", "soin", 15, 4},        // soigne 15 HP
 }
->>>>>>> 507d291f4efbda50e178e4cb92e1a9f119206257

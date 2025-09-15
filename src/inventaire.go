@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 package main
 
 import "fmt"
@@ -52,4 +50,3 @@ func (inv *Inventory) HasItem(name string) bool {
 	}
 	return false
 }
->>>>>>> 507d291f4efbda50e178e4cb92e1a9f119206257
