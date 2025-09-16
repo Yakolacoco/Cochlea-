@@ -30,10 +30,10 @@ func genererTour(maxFloor int) Tower {
 
 	// Sous-boss
 	sousBoss := []Monster{
-		{Name: "Garde vétéran", PVMax: 70, PVActuels: 70, DegatsBase: 12, Initiative: 12},
-		{Name: "Prisonnier fou", PVMax: 80, PVActuels: 80, DegatsBase: 14, Initiative: 11},
-		{Name: "Chimère carcérale", PVMax: 90, PVActuels: 90, DegatsBase: 16, Initiative: 10},
-		{Name: "Évadé mutant", PVMax: 85, PVActuels: 85, DegatsBase: 15, Initiative: 13},
+		{Name: "Garde vétéran", PVMax: 200, PVActuels: 200, DegatsBase: 20, Initiative: 12},
+		{Name: "Prisonnier fou", PVMax: 140, PVActuels: 140, DegatsBase: 30, Initiative: 15},
+		{Name: "Chimère carcérale", PVMax: 120, PVActuels: 120, DegatsBase: 40, Initiative: 14},
+		{Name: "Évadé mutant", PVMax: 300, PVActuels: 250, DegatsBase: 10, Initiative: 13},
 	}
 
 	for i := 1; i <= maxFloor; i++ {
@@ -41,7 +41,7 @@ func genererTour(maxFloor int) Tower {
 
 		// Boss final à l'étage 20
 		if i == 20 {
-			boss := Monster{Name: "Directeur suprême", PVMax: 200, PVActuels: 200, DegatsBase: 25, Initiative: 15}
+			boss := Monster{Name: "Directeur suprême", PVMax: 250, PVActuels: 250, DegatsBase: 25, Initiative: 20}
 			floor.Boss = &boss
 		} else if i == 5 || i == 10 || i == 15 || i == 18 { // Sous-boss aux étages clés
 			idx := (i / 5) - 1

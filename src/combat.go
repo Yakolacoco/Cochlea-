@@ -20,29 +20,29 @@ func combat(joueur *Character, monstre Monster) {
 	fmt.Printf("\n⚔️ Un %s apparaît !\n", monstre.Name)
 
 	for joueur.PVActuels > 0 && monstre.PVActuels > 0 {
-		// Tour du joueur ou du monstre selon l'initiative
 		if joueur.Initiative >= monstre.Initiative {
 			playerTurn(joueur, &monstre)
 			if monstre.PVActuels <= 0 {
-				fmt.Printf("🏆 Tu as vaincu %s !\n", monstre.Name)
 				break
 			}
 			monsterTurn(joueur, &monstre)
 		} else {
 			monsterTurn(joueur, &monstre)
 			if joueur.PVActuels <= 0 {
-				fmt.Println("💀 Tu as été vaincu...")
 				break
 			}
 			playerTurn(joueur, &monstre)
 		}
-		if joueur.PVActuels > 0 {
-		fmt.Printf("🎉 Tu as vaincu %s !\n", monstre.Name)
+	}
+
+	if monstre.PVActuels <= 0 {
+		fmt.Printf("🏆 Tu as vaincu %s !\n", monstre.Name)
 		joueur.Argent += 5
 		fmt.Println("💰 Tu gagnes 5 capsules.")
-}
-
+		gagnerXP(joueur, 5+rand.Intn(6)) // 5 à 10 XP
 	}
+
+
 
 	// Appliquer la perte de faim/fatigue après combat
 	apresCombat(joueur)
@@ -103,11 +103,11 @@ func monsterTurn(joueur *Character, monstre *Monster) {
 // Générer un monstre aléatoire
 func genererMonstreTour() Monster {
     mobs := []Monster{
-        {Name: "Rat géant", PVMax: 30, PVActuels: 30, DegatsBase: 5, Initiative: 8},
-        {Name: "Zombie affamé", PVMax: 40, PVActuels: 40, DegatsBase: 7, Initiative: 9},
-        {Name: "Garde armé", PVMax: 50, PVActuels: 50, DegatsBase: 10, Initiative: 10},
-        {Name: "Prisonnier fou", PVMax: 35, PVActuels: 35, DegatsBase: 6, Initiative: 11},
-        {Name: "Chien dressé", PVMax: 25, PVActuels: 25, DegatsBase: 4, Initiative: 12},
+        {Name: "Rat géant", PVMax: 40, PVActuels: 40, DegatsBase: 7, Initiative: 8},
+        {Name: "Zombie affamé", PVMax: 60, PVActuels: 60, DegatsBase: 10, Initiative: 9},
+        {Name: "Garde armé", PVMax: 100, PVActuels: 100, DegatsBase: 13, Initiative: 10},
+        {Name: "Prisonnier fou", PVMax: 60, PVActuels: 35, DegatsBase: 20, Initiative: 12},
+        {Name: "Chien dressé", PVMax: 40, PVActuels: 40, DegatsBase: 10, Initiative: 12},
     }
     rand.Seed(time.Now().UnixNano())
     return mobs[rand.Intn(len(mobs))]

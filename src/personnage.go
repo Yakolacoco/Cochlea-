@@ -24,6 +24,9 @@ type Character struct {
     ÉquipementArme   *Equipment
     ÉquipementArmure *Equipment
     Skills           []string
+    XP         int // XP actuelle
+    XPNext     int // XP nécessaire pour le prochain niveau
+
 }
 
 func characterCreation(scanner *bufio.Scanner) Character {
@@ -51,14 +54,16 @@ func initCharacter(nom string, classe string) Character {
         Classe:     classe,
         Niveau:     1,
         Inventaire: []string{},
-        DegatsBase: 20,    
+        DegatsBase: 15,    
         Initiative: 10,
-        Argent:     10,    
+        Argent:     20,    
         Faim:       20,
         Fatigue:    20,
         ÉquipementArme:   nil,
         ÉquipementArmure: nil,
         Skills: []string{"Coup de poing"},
+        XP: 0,
+        XPNext: 10,
 
     }
 
@@ -67,6 +72,8 @@ func initCharacter(nom string, classe string) Character {
         c.PVMax = 100000
         c.Passif = "Administrateur"
         c.DegatsBase += 10000
+        c.Argent += 50000
+        c.Initiative += 500
     case "Meurtrier":
         c.PVMax = 120
         c.Passif = "+20 PV Max, mais +10% fatigue par étage."
@@ -75,17 +82,17 @@ func initCharacter(nom string, classe string) Character {
         c.PVMax = 100
         c.Passif = "+5 initiative et +100 or."
         c.Initiative += 5
-        c.Argent += 100
+        c.Argent += 50
     case "Hacker":
         c.PVMax = 80
         c.Passif = "Sort passif : Pirater (monstre confus 1/2 chance de rater)."
     case "Psychopathe":
-        c.PVMax = 100
+        c.PVMax = 90
         c.Passif = "+10 dégâts de base, mais faim/fatigue augmentent 2× plus vite. 50% de chance de faire x2 dégâts."
         c.DegatsBase += 10
     }
 
-    c.PVActuels = c.PVMax / 2
+    c.PVActuels = c.PVMax 
     return c
 }
 
@@ -141,6 +148,8 @@ func displayInfo(c Character) {
     fmt.Println("Fatigue :", c.Fatigue, "/ 20")
     fmt.Println("Inventaire :", c.Inventaire)
     fmt.Println("Passif :", c.Passif)
+    fmt.Printf("XP : %d / %d\n", c.XP, c.XPNext)
+
 }
 
 func accessInventory(c *Character, scanner *bufio.Scanner) {
@@ -263,7 +272,32 @@ func spellBook(c *Character) {
     }
     c.Skills = append(c.Skills, "Boule de Feu")
     fmt.Println("✨ Vous avez appris le sort Boule de Feu !")
+
 }
+
+func gagnerXP(c *Character, xpGagne int) {
+	fmt.Printf("⭐ Tu gagnes %d XP !\n", xpGagne)
+	c.XP += xpGagne
+
+	for c.XP >= c.XPNext {
+		c.XP -= c.XPNext
+		c.Niveau++
+		fmt.Printf("🔼 Félicitations ! Tu passes niveau %d !\n", c.Niveau)
+		levelUp(c)
+		// Augmente XPNext pour le prochain niveau (exponentiel)
+		c.XPNext += 5 + c.Niveau*2
+	}
+}
+
+func levelUp(c *Character) {
+	c.PVMax += 5
+	c.PVActuels = c.PVMax // soigner complètement au niveau up
+	c.DegatsBase += 2      // arrondi à +2 dégâts
+	c.Initiative += 1      // +1 initiative
+	fmt.Println("✨ Stats améliorées : +5 PV, +2 dégâts, +1 initiative")
+}
+
+
 
 
 
