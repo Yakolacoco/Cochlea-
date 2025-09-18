@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math/rand" // <-- Ajoute ceci
+	"math/rand" 
 	"os"
 	"strings"
 	"time"
@@ -26,7 +26,7 @@ func main() {
 	// Création du personnage
 	joueur := characterCreation(scanner)
 
-	// Génération de la tour avec 10 étages (modifiable)
+	// Génération de la tour avec 10 étages
 	tower := genererTour(10)
 	currentFloor := 1
 
