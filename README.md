@@ -24,10 +24,21 @@ Le but de **COCHLEA** est de **gravir les 20 étages de la tour**.
 ## 🧍 Classes disponibles
 Au début du jeu, vous choisissez une **classe** qui définit vos bonus et malus :  
 
-- 🔪 **Meurtrier** : +20 PV max, mais +20% de fatigue par étage.  
-- 🥷 **Voleur** : +5 initiative et bonus de vol, mais -20 PV max.  
-- 💻 **Hacker** : commence avec un sort bonus (*Piratage*), mais moins d’équipement.  
-- 👹 **Psychopathe** : +10 dégâts de base, mais faim/fatigue augmentent 2× plus vite.  
+- 🔪 **Meurtrier**  
+  - Bonus : +20 PV max, +10 dégâts de base  
+  - Malus : +20% de fatigue par étage  
+
+- 🥷 **Voleur**  
+  - Bonus : +5 initiative et bonus de vol, +100 capsules  
+  - Malus : -20 PV max  
+
+- 💻 **Hacker**  
+  - Bonus : sort passif *Piratage* (50% de chance que l’ennemi rate son attaque)  
+  - Malus : -5 dégâts de base, PV max réduits (80 au lieu de 100)  
+
+- 👹 **Psychopathe**  
+  - Bonus : +10 dégâts de base, 50% de chance de doubler ses dégâts  
+  - Malus : faim et fatigue augmentent **2× plus vite**  
 
 ---
 
@@ -58,6 +69,7 @@ Dépensez vos capsules pour acheter armes, protections et objets essentiels.
 - 🍞 **Pain sec** : réduit la faim (+5) | 10 capsules  
 - ☠️ **Potion de poison** : inflige +20 dégâts empoisonnés | 20 capsules  
 - 📘 **Livre de sort – Boule de Feu** : apprend un sort | 50 capsules  
+- 📘 **Livre de sort – Éclair** : apprend un sort qui rend l’ennemi **confus** (50% de rater son attaque) | 50 capsules  
 
 ---
 
@@ -75,17 +87,15 @@ Chaque composant a un rôle précis pour organiser le code et faciliter la maint
 ## 🗂️ Structure du projet
 
 ```text
-prison/
-├── main.go              // Boucle principale du jeu et menu principal
-├── character.go         // Gestion du personnage : création, stats, compétences
-├── inventory.go         // Gestion de l’inventaire, objets et équipements
-├── shop.go              // Boutique : achat et utilisation d’objets
-├── equipment.go         // Définition et gestion des armes et armures
-├── combat.go            // Système de combat tour par tour
-├── monster.go           // Création et gestion des monstres et boss
-├── dungeon.go           // Progression dans les étages, coffres et monstres
-├── training.go          // Zone d’entraînement ou combats optionnels
-└── utils.go             // Fonctions utilitaires (input, conversion, affichage)
+Cochlea/
+└── src/
+    ├── main.go         // Boucle principale du jeu et menu principal
+    ├── boutique.go     // Boutique : achat et utilisation d’objets
+    ├── equipement.go   // Gestion des item
+    ├── combat.go       // Système de combat tour par tour
+    ├── personnage.go   // Création du personnage : stats, classes, progression
+    └── tour.go         // Progression dans les étages, coffres et monstres
+
 ```
 ---
 
@@ -98,5 +108,4 @@ cd src
 
 # Lancer le jeu (via Git Bash)
 go run *.go
-
 
