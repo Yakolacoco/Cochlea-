@@ -9,7 +9,7 @@ Votre objectif : **survivre, progresser et vaincre le maître de la tour**.
 ---
 
 ## 🎯 Objectif du jeu
-Le but de **COCHLEA** est de **gravir les 10 étages de la tour**.  
+Le but de **COCHLEA** est de **gravir les 20 étages de la tour**.  
 
 - Gérez votre **faim** et votre **fatigue** pour rester en vie.  
 - Progressez **étage par étage**, combattez des monstres, des sous-boss et un boss final.  
