@@ -2,23 +2,27 @@ package main
 
 import "fmt"
 
-// Inventaire
+// Inventory : structure qui regroupe tout ce que le joueur possède
+// Equipements = armes/armures, Items = consommables ou objets divers
 type Inventory struct {
-	Equipements []Equipment
-	Items       []Item
+	Equipements []Equipment // liste des équipements possédés
+	Items       []Item      // liste des objets consommables
 }
 
-// Ajouter un équipement
+// AddEquipment : ajoute un équipement dans l'inventaire
+// eq : équipement à ajouter
 func (inv *Inventory) AddEquipment(eq Equipment) {
-	inv.Equipements = append(inv.Equipements, eq)
+	inv.Equipements = append(inv.Equipements, eq) // utilise append pour ajouter à la slice
 }
 
-// Ajouter un item
+// AddItem : ajoute un objet consommable dans l'inventaire
+// it : item à ajouter
 func (inv *Inventory) AddItem(it Item) {
 	inv.Items = append(inv.Items, it)
 }
 
-// Afficher l'inventaire
+// Show : affiche tout l'inventaire du joueur
+// parcours les slices Equipements et Items et print chaque objet avec ses stats
 func (inv *Inventory) Show() {
 	fmt.Println("\n=== Équipements ===")
 	for i, eq := range inv.Equipements {
@@ -31,20 +35,22 @@ func (inv *Inventory) Show() {
 	}
 }
 
-// Vérifier si un équipement est dans l’inventaire
+// HasEquipment : vérifie si un équipement est déjà possédé
+// renvoie true si oui, false sinon
 func (inv *Inventory) HasEquipment(name string) bool {
 	for _, eq := range inv.Equipements {
-		if eq.Name == name {
+		if eq.Name == name { // compare le nom
 			return true
 		}
 	}
 	return false
 }
 
-// Vérifier si un item est dans l’inventaire
+// HasItem : vérifie si un item est déjà possédé
+// renvoie true si l'objet est présent dans l'inventaire
 func (inv *Inventory) HasItem(name string) bool {
 	for _, it := range inv.Items {
-		if it.Name == name {
+		if it.Name == name { // compare le nom
 			return true
 		}
 	}

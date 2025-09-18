@@ -8,35 +8,40 @@ import (
 	"unicode"
 )
 
-// Structure principale du joueur
+// Character : structure principale du joueur
+// contient toutes les infos du personnage : stats, inventaire, equipements, skills, XP...
 type Character struct {
-	Nom              string     // Nom du personnage
-	Classe           string     // Classe choisie (Meurtrier, Voleur, etc.)
-	Niveau           int        // Niveau actuel
-	PVMax            int        // Points de vie maximum
-	PVActuels        int        // Points de vie actuels
-	Inventaire       []string   // Liste des objets possédés
-	Argent           int        // Argent disponible
-	DegatsBase       int        // Dégâts de base sans arme
-	Initiative       int        // Détermine l'ordre d'action en combat
-	Passif           string     // Bonus/malus liés à la classe
-	Faim             int        // Niveau de faim (max 20)
-	Fatigue          int        // Niveau de fatigue (max 20)
-	ÉquipementArme   *Equipment // Arme équipée
-	ÉquipementArmure *Equipment // Armure équipée
-	Skills           []string   // Liste des compétences/sorts
-	XP               int        // XP actuelle
-	XPNext           int        // XP nécessaire pour le prochain niveau
+	Nom              string     // nom du joueur
+	Classe           string     // classe choisie (Meurtrier, Voleur, Hacker, Psychopathe, Admin)
+	Niveau           int        // niveau actuel
+	PVMax            int        // pv maximum
+	PVActuels        int        // pv actuels
+	Inventaire       []string   // liste des items possédés
+	Argent           int        // argent du joueur
+	DegatsBase       int        // degats de base sans arme
+	Initiative       int        // ordre d'action en combat
+	Passif           string     // passif / bonus de la classe
+	Faim             int        // faim (max 20)
+	Fatigue          int        // fatigue (max 20)
+	ÉquipementArme   *Equipment // arme équipée
+	ÉquipementArmure *Equipment // armure équipée
+	Skills           []string   // compétences et sorts connus
+	XP               int        // xp actuelle
+	XPNext           int        // xp nécessaire pour passer au niveau suivant
+	PoisonNextAttack bool       // poison
+	BurnTurns int				// nombre de tour brulure
+    BurnDmg   int				// dgt brulure	
 }
 
-// Création du personnage
+// characterCreation : crée un personnage à partir du scanner
+// demande nom et classe à l'utilisateur et initialise le personnage via initCharacter
 func characterCreation(scanner *bufio.Scanner) Character {
 	var nom, classe string
 	fmt.Print("Quel est ton nom ? ")
 	scanner.Scan()
-	nom = formatNom(scanner.Text()) // Met la première lettre en majuscule
+	nom = formatNom(scanner.Text()) // met première lettre en majuscule
 
-	// Boucle pour choisir une classe valide
+	// boucle jusqu'à ce que l'utilisateur choisisse une classe valide
 	for {
 		fmt.Print("Choisis ta peine (Meurtrier, Voleur, Hacker, Psychopathe) : ")
 		scanner.Scan()
@@ -47,10 +52,12 @@ func characterCreation(scanner *bufio.Scanner) Character {
 		fmt.Println("❌ Classe invalide.")
 	}
 
+	// retourne le personnage initialisé selon la classe
 	return initCharacter(nom, classe)
 }
 
-// Initialise un personnage selon sa classe
+// initCharacter : initialise un personnage selon sa classe
+// applique les bonus/malus de la classe et les stats de base
 func initCharacter(nom string, classe string) Character {
 	c := Character{
 		Nom:              nom,
@@ -64,12 +71,12 @@ func initCharacter(nom string, classe string) Character {
 		Fatigue:          20,
 		ÉquipementArme:   nil,
 		ÉquipementArmure: nil,
-		Skills:           []string{"Coup de poing"},
+		Skills:           []string{"Coup de poing"}, // compétence de base
 		XP:               0,
 		XPNext:           10,
 	}
 
-	// Bonus/malus par classe
+	// applique les bonus/malus selon la classe choisie
 	switch classe {
 	case "Admin":
 		c.PVMax = 100000
@@ -99,7 +106,9 @@ func initCharacter(nom string, classe string) Character {
 	return c
 }
 
-// Gestion faim/fatigue après combat
+// apresCombat : applique les pertes de faim/fatigue après un combat
+// réduit l'initiative si trop faible
+// utilise la classe pour modifier la perte (Psychopathe double la perte)
 func apresCombat(c *Character) {
 	perte := 3
 	if c.Classe == "Psychopathe" {
@@ -109,7 +118,7 @@ func apresCombat(c *Character) {
 	c.Faim -= perte
 	c.Fatigue -= perte
 
-	// Si trop faible, perte d’initiative
+	// si trop faible, l'initiative diminue
 	if c.Faim < 10 || c.Fatigue < 10 {
 		if c.Initiative > 0 {
 			c.Initiative--
@@ -117,7 +126,7 @@ func apresCombat(c *Character) {
 		}
 	}
 
-	// Pas de valeurs négatives
+	// empêche valeurs négatives
 	if c.Faim < 0 {
 		c.Faim = 0
 	}
@@ -126,7 +135,8 @@ func apresCombat(c *Character) {
 	}
 }
 
-// Manger un objet consommable
+// manger : permet de manger un item consommable
+// recherche "Pain sec" dans l'inventaire, augmente faim et supprime l'item
 func manger(c *Character) {
 	for i, item := range c.Inventaire {
 		if item == "Pain sec" {
@@ -135,15 +145,15 @@ func manger(c *Character) {
 			if c.Faim > 20 {
 				c.Faim = 20
 			}
-			// Retirer l’objet de l’inventaire
-			c.Inventaire = append(c.Inventaire[:i], c.Inventaire[i+1:]...)
+			c.Inventaire = append(c.Inventaire[:i], c.Inventaire[i+1:]...) // retire l'objet
 			return
 		}
 	}
 	fmt.Println("❌ Tu n’as rien à manger.")
 }
 
-// Affichage des infos personnage
+// displayInfo : affiche toutes les infos du personnage
+// utilise tous les champs du Character pour afficher stats, inventaire, passif et XP
 func displayInfo(c Character) {
 	fmt.Println("--- Infos Personnage ---")
 	fmt.Println("Nom :", c.Nom)
@@ -160,7 +170,9 @@ func displayInfo(c Character) {
 	fmt.Printf("XP : %d / %d\n", c.XP, c.XPNext)
 }
 
-// Gestion de l’inventaire
+// accessInventory : permet au joueur de gérer son inventaire
+// affiche items, choix d'utiliser ou équiper
+// utilise getEquipmentByName, equiperItem et useConsumable
 func accessInventory(c *Character, scanner *bufio.Scanner) {
 	for {
 		fmt.Println("\n--- Inventaire ---")
@@ -169,7 +181,7 @@ func accessInventory(c *Character, scanner *bufio.Scanner) {
 			return
 		}
 
-		// Affiche chaque item
+		// affiche chaque item
 		for i, item := range c.Inventaire {
 			fmt.Printf("%d. %s\n", i+1, item)
 		}
@@ -190,7 +202,7 @@ func accessInventory(c *Character, scanner *bufio.Scanner) {
 
 		itemName := c.Inventaire[index]
 
-		// Vérifie si c’est un équipement ou un consommable
+		// vérifie si c'est un équipement ou un consommable
 		equip := getEquipmentByName(itemName)
 		if equip != nil {
 			equiperItem(c, equip, index)
@@ -200,7 +212,8 @@ func accessInventory(c *Character, scanner *bufio.Scanner) {
 	}
 }
 
-// Mise en forme du nom
+// formatNom : met la première lettre du nom en majuscule
+// utile pour uniformiser l'affichage
 func formatNom(input string) string {
 	input = strings.ToLower(input)
 	runes := []rune(input)
@@ -213,7 +226,8 @@ func formatNom(input string) string {
 	return string(runes)
 }
 
-// Gestion des équipements
+// getEquipmentByName : récupère un équipement depuis son nom
+// retourne un pointeur sur l'Equipment ou nil si non trouvé
 func getEquipmentByName(name string) *Equipment {
 	for i := range Equipments {
 		if Equipments[i].Name == name {
@@ -223,7 +237,8 @@ func getEquipmentByName(name string) *Equipment {
 	return nil
 }
 
-// Équiper une arme ou armure
+// equiperItem : équipe une arme ou armure pour le joueur
+// met à jour stats et supprime l'objet de l'inventaire
 func equiperItem(c *Character, equip *Equipment, index int) {
 	switch equip.Type {
 	case "arme":
@@ -247,11 +262,12 @@ func equiperItem(c *Character, equip *Equipment, index int) {
 		fmt.Println("✅ Armure équipée :", equip.Name)
 	}
 
-	// Retirer l’objet de l’inventaire
+	// supprime l'objet de l'inventaire après équipement
 	c.Inventaire = append(c.Inventaire[:index], c.Inventaire[index+1:]...)
 }
 
-// Consommables
+// useConsumable : utilise un objet consommable
+// gère potions, pain sec et livres de sort
 func useConsumable(c *Character, name string, index int) {
 	switch name {
 	case "Potion de soin":
@@ -260,62 +276,112 @@ func useConsumable(c *Character, name string, index int) {
 			c.PVActuels = c.PVMax
 		}
 		fmt.Println("💊 Tu utilises une potion de soin :", c.PVActuels, "/", c.PVMax)
+
+	case "Potion de soin majeure":
+		c.PVActuels += 60
+		if c.PVActuels > c.PVMax {
+			c.PVActuels = c.PVMax
+		}
+		fmt.Println("💊 Tu utilises une potion de soin majeure :", c.PVActuels, "/", c.PVMax)
+
+	case "Élixir de régénération":
+		c.PVActuels = c.PVMax
+		fmt.Println("✨ Tu es totalement régénéré :", c.PVActuels, "/", c.PVMax)
+
 	case "Pain sec":
-		fmt.Println("🍞 Tu manges du pain sec. +5 faim.")
 		c.Faim += 5
 		if c.Faim > 20 {
 			c.Faim = 20
 		}
+		fmt.Println("🍞 Tu manges un pain sec. Faim :", c.Faim, "/20")
+
+	case "Sandwich frais":
+		c.Faim += 10
+		if c.Faim > 20 {
+			c.Faim = 20
+		}
+		fmt.Println("🥪 Tu manges un sandwich frais. Faim :", c.Faim, "/20")
+
+	case "Barre énergétique":
+		c.Faim += 8
+		if c.Faim > 20 {
+			c.Faim = 20
+		}
+		fmt.Println("🍫 Tu manges une barre énergétique. Faim :", c.Faim, "/20")
+
+	case "Potion de force":
+		c.DegatsBase += 5
+		fmt.Println("💪 Tu bois une potion de force ! Dégâts augmentés temporairement :", c.DegatsBase)
+
+	case "Potion de rapidité":
+		c.Initiative += 3
+		fmt.Println("⚡ Tu bois une potion de rapidité ! Initiative augmentée temporairement :", c.Initiative)
+
 	case "Potion de poison":
-		fmt.Println("☠️ Tu prépares une potion de poison. Elle pourra être utilisée en combat.")
+    c.PoisonNextAttack = true
+    fmt.Println("☠️ Potion de poison prête pour le combat !")
+		// Gérer le poison pendant le combat
+
 	case "Livre de Sort : Boule de Feu":
-		spellBook(c) // Apprentissage du sort
+		learnSpell(c, "Boule de Feu")
+
+	case "Livre de Sort : Éclair":
+		learnSpell(c, "Éclair")
+	
+
+
+
 	default:
 		fmt.Println("❌ Cet item ne peut pas être utilisé.")
 	}
 
-	// Supprime l'item utilisé
+	// Supprimer l’item de l’inventaire après usage
 	c.Inventaire = append(c.Inventaire[:index], c.Inventaire[index+1:]...)
 }
 
-// Apprentissage d’un sort
-func spellBook(c *Character) {
+
+// spellBook : permet d'apprendre un nouveau sort (Boule de Feu)
+// vérifie si le joueur ne le connaît pas déjà
+func learnSpell(c *Character, spellName string) {
 	for _, s := range c.Skills {
-		if s == "Boule de Feu" {
+		if s == spellName {
 			fmt.Println("❌ Vous connaissez déjà ce sort !")
 			return
 		}
 	}
-	c.Skills = append(c.Skills, "Boule de Feu")
-	fmt.Println("✨ Vous avez appris le sort Boule de Feu !")
+	c.Skills = append(c.Skills, spellName)
+	fmt.Printf("✨ Vous avez appris le sort %s !\n", spellName)
 }
 
-// Gestion de l’expérience
+
+// gagnerXP : ajoute de l'XP et gère le level up
+// appelle levelUp si le joueur a assez d'XP
 func gagnerXP(c *Character, xpGagne int) {
 	fmt.Printf("⭐ Tu gagnes %d XP !\n", xpGagne)
 	c.XP += xpGagne
 
-	// Vérifie si assez d’XP pour monter de niveau
+	// vérifie si le joueur passe un niveau
 	for c.XP >= c.XPNext {
 		c.XP -= c.XPNext
 		c.Niveau++
 		fmt.Printf("🔼 Félicitations ! Tu passes niveau %d !\n", c.Niveau)
 		levelUp(c)
-		// Augmente le coût d’XP pour le prochain niveau
+		// augmente le coût d’XP pour le prochain niveau
 		c.XPNext += 5 + c.Niveau*2
 	}
 }
 
-// Bonus de stats lors d’un level up
+// levelUp : augmente les stats du personnage après un niveau gagné
+// augmente PV max, soin complet, degats et initiative
 func levelUp(c *Character) {
 	c.PVMax += 5
-	c.PVActuels = c.PVMax // Soigne totalement
+	c.PVActuels = c.PVMax
 	c.DegatsBase += 2
 	c.Initiative += 1
 	fmt.Println("✨ Stats améliorées : +5 PV, +2 dégâts, +1 initiative")
 }
 
-// Outil conversion string et int
+// parseInt : convertit string en int, retourne 0 si erreur
 func parseInt(s string) int {
 	val, err := strconv.Atoi(s)
 	if err != nil {
