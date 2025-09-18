@@ -9,7 +9,7 @@ Votre objectif : **survivre, progresser et vaincre le maître de la tour**.
 ---
 
 ## 🎯 Objectif du jeu
-Le but de **COCHLEA** est de **gravir les 10 étages de la tour**.  
+Le but de **COCHLEA** est de **gravir les 25 étages de la tour**.  
 
 - Gérez votre **faim** et votre **fatigue** pour rester en vie.  
 - Progressez **étage par étage**, combattez des monstres, des sous-boss et un boss final.  
@@ -24,10 +24,21 @@ Le but de **COCHLEA** est de **gravir les 10 étages de la tour**.
 ## 🧍 Classes disponibles
 Au début du jeu, vous choisissez une **classe** qui définit vos bonus et malus :  
 
-- 🔪 **Meurtrier** : +20 PV max, mais +20% de fatigue par étage.  
-- 🥷 **Voleur** : +5 initiative et bonus de vol, mais -20 PV max.  
-- 💻 **Hacker** : commence avec un sort bonus (*Piratage*), mais moins d’équipement.  
-- 👹 **Psychopathe** : +10 dégâts de base, mais faim/fatigue augmentent 2× plus vite.  
+- 🔪 **Meurtrier**  
+  - Bonus : +20 PV max, +10 dégâts de base  
+  - Malus : +20% de fatigue par étage  
+
+- 🥷 **Voleur**  
+  - Bonus : +5 initiative et bonus de vol, +100 capsules  
+  - Malus : -20 PV max  
+
+- 💻 **Hacker**  
+  - Bonus : sort passif *Piratage* (50% de chance que l’ennemi rate son attaque)  
+  - Malus : -5 dégâts de base, PV max réduits (80 au lieu de 100)  
+
+- 👹 **Psychopathe**  
+  - Bonus : +10 dégâts de base, 50% de chance de doubler ses dégâts  
+  - Malus : faim et fatigue augmentent **2× plus vite**  
 
 ---
 
@@ -48,16 +59,28 @@ Dépensez vos capsules pour acheter armes, protections et objets essentiels.
 - 🔪 **Couteau artisanal** : +15 dégâts | 20 capsules  
 - 🪵 **Bâton en bois** : +8 dégâts | 10 capsules  
 - ⚒️ **Barre de fer** : +30 dégâts | 30 capsules  
+- 🗡️ **Katana affûté** : +45 dégâts | 70 capsules  
+- 🔫 **Fusil à pompe** : +60 dégâts | 120 capsules  
+- ⚔️ **Épée longue** : +35 dégâts | 50 capsules  
 
 ### 🛡️ Armures
 - 👕 **Gilet pare-balles léger** : +20 PV | 40 capsules  
 - 🧥 **Gilet pare-balles lourd** : +50 PV | 80 capsules  
+- 🛡️ **Bouclier en acier** : +40 PV | 60 capsules  
+- 🦾 **Armure de combat** : +60 PV | 100 capsules  
+- 🪖 **Casque renforcé** : +25 PV | 45 capsules  
+- 🦺 **Gilet tactique** : +35 PV | 55 capsules  
 
 ### ⚗️ Consommables
-- 🍷 **Potion de soin** : soigne +30 PV | 25 capsules  
-- 🍞 **Pain sec** : réduit la faim (+5) | 10 capsules  
-- ☠️ **Potion de poison** : inflige +20 dégâts empoisonnés | 20 capsules  
-- 📘 **Livre de sort – Boule de Feu** : apprend un sort | 50 capsules  
+- 🍷 **Potion de soin** : +30 PV | 25 capsules  
+- 🍷 **Potion de soin majeure** : +60 PV | 50 capsules  
+- ✨ **Élixir de régénération** : restaure les PV au maximum | 100 capsules  
+- 🍞 **Pain sec** : réduit légèrement la faim (+5) | 10 capsules  
+- 🥪 **Sandwich frais** : réduit modérément la faim (+10) | 20 capsules  
+- 🍫 **Barre énergétique** : réduit fortement la faim (+8) | 15 capsules  
+- 💪 **Potion de force** : +5 dégâts temporaires | 30 capsules  
+- ⚡ **Potion de rapidité** : +3 initiative temporaire | 30 capsules  
+- ☠️ **Potion de poison** : applique un poison à la prochaine attaque | 20 capsules  
 
 ---
 
@@ -75,17 +98,15 @@ Chaque composant a un rôle précis pour organiser le code et faciliter la maint
 ## 🗂️ Structure du projet
 
 ```text
-prison/
-├── main.go              // Boucle principale du jeu et menu principal
-├── character.go         // Gestion du personnage : création, stats, compétences
-├── inventory.go         // Gestion de l’inventaire, objets et équipements
-├── shop.go              // Boutique : achat et utilisation d’objets
-├── equipment.go         // Définition et gestion des armes et armures
-├── combat.go            // Système de combat tour par tour
-├── monster.go           // Création et gestion des monstres et boss
-├── dungeon.go           // Progression dans les étages, coffres et monstres
-├── training.go          // Zone d’entraînement ou combats optionnels
-└── utils.go             // Fonctions utilitaires (input, conversion, affichage)
+Cochlea/
+└── src/
+    ├── main.go         // Boucle principale du jeu et menu principal
+    ├── boutique.go     // Boutique : achat et utilisation d’objets
+    ├── equipement.go   // Gestion des item
+    ├── combat.go       // Système de combat tour par tour
+    ├── personnage.go   // Création du personnage : stats, classes, progression
+    └── tour.go         // Progression dans les étages, coffres et monstres
+
 ```
 ---
 
@@ -98,5 +119,4 @@ cd src
 
 # Lancer le jeu (via Git Bash)
 go run *.go
-
 
