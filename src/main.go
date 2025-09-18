@@ -75,13 +75,13 @@ func main() {
 
 				// si le joueur meurt
 				if joueur.PVActuels <= 0 {
-					fmt.Println("💀 Tu es tombé...")
+					fmt.Println("💀 t mor")
 
 					if rand.Intn(100) < 25 { // 25% de chance de résurrection
 						joueur.PVActuels = joueur.PVMax / 4
-						fmt.Printf("✨ Une force mystérieuse te réanime avec %d PV !\n", joueur.PVActuels)
+						fmt.Printf("La claque du daron te réanime avec %d PV !\n", joueur.PVActuels)
 					} else {
-						fmt.Println("💀 Game Over !")
+						fmt.Println("dommage !")
 						return
 					}
 				} else {
@@ -94,7 +94,7 @@ func main() {
 			currentFloor++ // passe à l'étage suivant
 
 		case "6":
-			fmt.Println("👋 Fin de la session. À bientôt.")
+			fmt.Println("👋 Reviens pas.")
 			return
 		default:
 			fmt.Println("❌ Choix invalide.") // entrée invalide dans le menu
