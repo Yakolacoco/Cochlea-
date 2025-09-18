@@ -59,17 +59,28 @@ Dépensez vos capsules pour acheter armes, protections et objets essentiels.
 - 🔪 **Couteau artisanal** : +15 dégâts | 20 capsules  
 - 🪵 **Bâton en bois** : +8 dégâts | 10 capsules  
 - ⚒️ **Barre de fer** : +30 dégâts | 30 capsules  
+- 🗡️ **Katana affûté** : +45 dégâts | 70 capsules  
+- 🔫 **Fusil à pompe** : +60 dégâts | 120 capsules  
+- ⚔️ **Épée longue** : +35 dégâts | 50 capsules  
 
 ### 🛡️ Armures
 - 👕 **Gilet pare-balles léger** : +20 PV | 40 capsules  
 - 🧥 **Gilet pare-balles lourd** : +50 PV | 80 capsules  
+- 🛡️ **Bouclier en acier** : +40 PV | 60 capsules  
+- 🦾 **Armure de combat** : +60 PV | 100 capsules  
+- 🪖 **Casque renforcé** : +25 PV | 45 capsules  
+- 🦺 **Gilet tactique** : +35 PV | 55 capsules  
 
 ### ⚗️ Consommables
-- 🍷 **Potion de soin** : soigne +30 PV | 25 capsules  
-- 🍞 **Pain sec** : réduit la faim (+5) | 10 capsules  
-- ☠️ **Potion de poison** : inflige +20 dégâts empoisonnés | 20 capsules  
-- 📘 **Livre de sort – Boule de Feu** : apprend un sort | 50 capsules  
-- 📘 **Livre de sort – Éclair** : apprend un sort qui rend l’ennemi **confus** (50% de rater son attaque) | 50 capsules  
+- 🍷 **Potion de soin** : +30 PV | 25 capsules  
+- 🍷 **Potion de soin majeure** : +60 PV | 50 capsules  
+- ✨ **Élixir de régénération** : restaure les PV au maximum | 100 capsules  
+- 🍞 **Pain sec** : réduit légèrement la faim (+5) | 10 capsules  
+- 🥪 **Sandwich frais** : réduit modérément la faim (+10) | 20 capsules  
+- 🍫 **Barre énergétique** : réduit fortement la faim (+8) | 15 capsules  
+- 💪 **Potion de force** : +5 dégâts temporaires | 30 capsules  
+- ⚡ **Potion de rapidité** : +3 initiative temporaire | 30 capsules  
+- ☠️ **Potion de poison** : applique un poison à la prochaine attaque | 20 capsules  
 
 ---
 
